@@ -1,7 +1,7 @@
 import os
 from langchain_community.document_loaders import TextLoader, DirectoryLoader
 from langchain_text_splitters import CharacterTextSplitter
-from langchain_openai import OpenAIEmbeddings
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_chroma import Chroma
 from dotenv import load_dotenv
 
@@ -67,7 +67,9 @@ def create_vector_store(chunks, persist_directory="db/chroma_db"):
     """Create and persist ChromaDB vector store"""
     print("Creating embeddings and storing in ChromaDB...")
         
-    embedding_model = OpenAIEmbeddings(model="text-embedding-3-small")
+    embedding_model = GoogleGenerativeAIEmbeddings(
+    model="models/gemini-embedding-001"
+    )
     
     # Create ChromaDB vector store
     print("--- Creating vector store ---")
@@ -94,7 +96,9 @@ def main():
     if os.path.exists(persistent_directory):
         print("✅ Vector store already exists. No need to re-process documents.")
         
-        embedding_model = OpenAIEmbeddings(model="text-embedding-3-small")
+        embedding_model = GoogleGenerativeAIEmbeddings(
+    model="models/gemini-embedding-001"
+)
         vectorstore = Chroma(
             persist_directory=persistent_directory,
             embedding_function=embedding_model, 
