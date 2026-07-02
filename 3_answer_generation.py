@@ -1,16 +1,17 @@
 from langchain_chroma import Chroma
-from langchain_openai import OpenAIEmbeddings
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from dotenv import load_dotenv
-from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, SystemMessage
-
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 load_dotenv()
 
 persistent_directory = "db/chroma_db"
 
 # Load embeddings and vector store
-embedding_model = OpenAIEmbeddings(model="text-embedding-3-small")
+embedding_model = GoogleGenerativeAIEmbeddings(
+    model="models/gemini-embedding-001"
+)
 
 db = Chroma(
     persist_directory=persistent_directory,
@@ -50,7 +51,9 @@ Please provide a clear, helpful answer using only the information from these doc
 """
 
 # Create a ChatOpenAI model
-model = ChatOpenAI(model="gpt-4o")
+model = ChatGoogleGenerativeAI(
+    model="gemini-2.5-flash"
+)
 
 # Define the messages for the model
 messages = [
